@@ -160,7 +160,7 @@ export default async function handler(req, res) {
     };
 
     const headers = {"Content-Type": "application/json"};
-    if (webhookSecret) headers.Authorization = `Bearer ${webhookSecret}`;
+    if (webhookSecret) headers["x-make-apikey"] = webhookSecret;
 
     const hookResp = await fetch(webhookUrl, {
       method: "POST",
