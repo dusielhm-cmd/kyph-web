@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>KYPH | Conectar TikTok</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <style>
+    .oauth-wrap{width:min(760px,92%);margin:64px auto}
+    .oauth-actions{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+    .oauth-btn{display:block;padding:18px;border:1px solid var(--line);border-radius:14px;background:#fff;font-weight:800;color:var(--navy)}
+    .oauth-btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
+    .oauth-status{margin-top:22px}
+    @media(max-width:700px){.oauth-actions{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="/">KYPH</a>
+  </div>
+</header>
+<main class="oauth-wrap">
+  <span class="badge">Administración KYPH</span>
+  <h1>Conectar cuentas de TikTok</h1>
+  <p class="lead">Cada cuenta debe autorizar KYPH por separado. No se comparten contraseñas; TikTok gestiona el inicio de sesión y el consentimiento.</p>
+
+  <div id="oauthStatus" class="notice oauth-status">Comprobando configuración segura…</div>
+
+  <div class="oauth-actions">
+    <a id="m40Btn" class="oauth-btn" href="/api/tiktok/start?account=m40" aria-disabled="true">
+      Conectar M40 / Pensiones
+    </a>
+    <a id="pprBtn" class="oauth-btn" href="/api/tiktok/start?account=ppr" aria-disabled="true">
+      Conectar PPR / Pediatras
+    </a>
+  </div>
+</main>
+<script>
+(async function () {
+  const box = document.getElementById("oauthStatus");
+  const buttons = [document.getElementById("m40Btn"), document.getElementById("pprBtn")];
+  try {
+    const r = await fetch("/api/tiktok/status", {cache:"no-store"});
+    const s = await r.json();
+    if (!s.clientConfigured) {
+      box.textContent = "Falta la configuración base de TikTok en el servidor.";
+      return;
+    }
+    if (!s.tokenWebhookConfigured) {
+      box.textContent = "OAuth está preparado, pero el almacenamiento seguro de tokens aún no está conectado. Los botones seguirán bloqueados hasta configurar el webhook privado.";
+      return;
+    }
+    box.textContent = "Configuración lista. Puedes autorizar una cuenta a la vez.";
+    buttons.forEach(b => b.setAttribute("aria-disabled","false"));
+  } catch (e) {
+    box.textContent = "No se pudo comprobar la configuración. Intenta nuevamente más tarde.";
+  }
+})();
+</script>
+</body>
+</html>
