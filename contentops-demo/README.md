@@ -2,7 +2,7 @@
 
 Esta rama abre la construcción de ContentOps sin modificar el sitio institucional ni sus callbacks OAuth.
 
-**Estado: prototipo local v0.1, no desplegado ni habilitado para agentes.** El código HTML funcional fue generado como paquete entregable `kyph-contentops-prototipo-v01.zip` durante la sesión de preparación. Aún debe incorporarse a esta rama tras revisar que no contiene datos personales y terminar pruebas visuales.
+**Estado: interfaz HTML v0.1 incorporada en esta rama como `contentops-demo/index.html`; NO desplegada ni habilitada para agentes.** Hay un paquete `KYPH_ContentOps_Prototipo_v01.zip` guardado en la carpeta existente P-0048 de Google Drive. JavaScript comprobado mediante `node --check`, interfaz auditada estructuralmente (6 secciones, sin IDs duplicados). Queda pendiente QA interactivo en navegador y backend seguro.
 
 ## Funciones ya maquetadas
 - Resumen por cuenta demo.
